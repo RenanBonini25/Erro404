@@ -10,9 +10,12 @@ import br.com.erro404.pi3a.gerenciadorprodutos.classes.Produto;
 import br.com.erro404.pi3a.gerenciadorprodutos.exceptions.ExceptionProduto;
 import br.com.erro404.pi3a.gerenciadorprodutos.servicos.ServicoProduto;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -36,7 +39,6 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        groupCategoria = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -50,11 +52,11 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
         textPrecoVenda = new javax.swing.JTextField();
         textPrecoCompra = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        radioCat2 = new javax.swing.JRadioButton();
-        radioCat1 = new javax.swing.JRadioButton();
-        radioCat3 = new javax.swing.JRadioButton();
-        radioCat4 = new javax.swing.JRadioButton();
-        radioCat5 = new javax.swing.JRadioButton();
+        checkCat1 = new javax.swing.JCheckBox();
+        checkCat2 = new javax.swing.JCheckBox();
+        checkCat3 = new javax.swing.JCheckBox();
+        checkCat4 = new javax.swing.JCheckBox();
+        checkCat5 = new javax.swing.JCheckBox();
         textNome = new javax.swing.JTextField();
         textDescricao = new javax.swing.JTextField();
         botaoSalvar = new javax.swing.JButton();
@@ -76,26 +78,32 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Descriçao");
 
+        textQuantidade.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textQuantidadeKeyTyped(evt);
+            }
+        });
+
         jLabel7.setText("R$");
 
         jLabel8.setText("R$");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Categoria"));
 
-        groupCategoria.add(radioCat2);
-        radioCat2.setText(" DOIS");
+        checkCat1.setText("UM");
 
-        groupCategoria.add(radioCat1);
-        radioCat1.setText(" UM");
+        checkCat2.setText("DOIS");
+        checkCat2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkCat2ActionPerformed(evt);
+            }
+        });
 
-        groupCategoria.add(radioCat3);
-        radioCat3.setText("TRÊS");
+        checkCat3.setText("TRÊS");
 
-        groupCategoria.add(radioCat4);
-        radioCat4.setText(" QUATRO");
+        checkCat4.setText("QUATRO");
 
-        groupCategoria.add(radioCat5);
-        radioCat5.setText(" CINCO");
+        checkCat5.setText("CINCO");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -105,31 +113,30 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(radioCat4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(radioCat5)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(11, 11, 11)
+                        .addComponent(checkCat4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(checkCat5))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(radioCat1)
-                        .addGap(18, 18, 18)
-                        .addComponent(radioCat2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                        .addComponent(radioCat3)
-                        .addGap(4, 4, 4))))
+                        .addComponent(checkCat1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(checkCat2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(checkCat3)))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(radioCat1)
-                    .addComponent(radioCat2)
-                    .addComponent(radioCat3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(checkCat1)
+                    .addComponent(checkCat2)
+                    .addComponent(checkCat3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(radioCat4)
-                    .addComponent(radioCat5)))
+                    .addComponent(checkCat4)
+                    .addComponent(checkCat5)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -260,16 +267,16 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
             produto.setQuantidade(Integer.parseInt(textQuantidade.getText()));
             produto.setPrecoCompra(Double.parseDouble(textPrecoCompra.getText().replaceAll(",", ".")));
             produto.setPrecoVenda(Double.parseDouble(textPrecoVenda.getText().replaceAll(",", ".")));
-            
-        } catch(Exception e) {
-            
+
+        } catch (Exception e) {
+
         }
-        Categoria categoriaProduto = selecionarCategoria(produto);
-        produto.setCategoria(categoriaProduto);
+        ArrayList<Categoria> categorias = selecionarCategoria(produto);
+
         Date data = new Date();
         produto.setDataCadastro(data);
         try {
-            ServicoProduto.cadastrarProduto(produto);
+            ServicoProduto.cadastrarProduto(produto, categorias);
         } catch (ExceptionProduto ex) {
             Logger.getLogger(CadastrarProdutos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -277,29 +284,70 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CadastrarProdutos.class.getName()).log(Level.SEVERE, null, ex);
         }
+        JOptionPane.showMessageDialog(rootPane, "Produto inserido com sucesso!",
+                "Cadastro efetuado!", JOptionPane.INFORMATION_MESSAGE);
+        limparCamposCadastro();
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
-    public Categoria selecionarCategoria(Produto produto) {
-        Categoria categoria = new Categoria();
-        if (radioCat1.isSelected()) {
-            categoria.setId(1);
-        } else if (radioCat2.isSelected()) {
-            categoria.setId(2);
-        } else if (radioCat3.isSelected()) {
-            categoria.setId(3);
-        } else if (radioCat4.isSelected()) {
-            categoria.setId(4);
-        } else if (radioCat5.isSelected()) {
-            categoria.setId(5);
+    private void textQuantidadeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textQuantidadeKeyTyped
+        String caracteres = "0987654321";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
         }
-        categoria.setIdProduto(produto.getId());
-        return categoria;
+    }//GEN-LAST:event_textQuantidadeKeyTyped
+
+    private void checkCat2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkCat2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkCat2ActionPerformed
+
+    public void limparCamposCadastro() {
+        textDescricao.setText("");
+        textPrecoVenda.setText("");
+        textPrecoCompra.setText("");
+        textNome.setText("");
+        textDescricao.setText("");
+
+    }
+
+    public ArrayList<Categoria> selecionarCategoria(Produto produto) {
+        ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+        if (checkCat1.isSelected()) {
+            Categoria categoria = new Categoria();
+            categoria.setId(1);
+            categorias.add(categoria);
+        }
+        if (checkCat2.isSelected()) {
+            Categoria categoria = new Categoria();
+            categoria.setId(2);
+            categorias.add(categoria);
+        }
+        if (checkCat3.isSelected()) {
+            Categoria categoria = new Categoria();
+            categoria.setId(3);
+            categorias.add(categoria);
+        }
+        if (checkCat4.isSelected()) {
+            Categoria categoria = new Categoria();
+            categoria.setId(4);
+            categorias.add(categoria);
+        }
+        if (checkCat5.isSelected()) {
+            Categoria categoria = new Categoria();
+            categoria.setId(5);
+            categorias.add(categoria);
+        }
+
+        return categorias;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancelar;
     private javax.swing.JButton botaoSalvar;
-    private javax.swing.ButtonGroup groupCategoria;
+    private javax.swing.JCheckBox checkCat1;
+    private javax.swing.JCheckBox checkCat2;
+    private javax.swing.JCheckBox checkCat3;
+    private javax.swing.JCheckBox checkCat4;
+    private javax.swing.JCheckBox checkCat5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -310,11 +358,6 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton radioCat1;
-    private javax.swing.JRadioButton radioCat2;
-    private javax.swing.JRadioButton radioCat3;
-    private javax.swing.JRadioButton radioCat4;
-    private javax.swing.JRadioButton radioCat5;
     private javax.swing.JTextField textDescricao;
     private javax.swing.JTextField textNome;
     private javax.swing.JTextField textPrecoCompra;

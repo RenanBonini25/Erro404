@@ -5,14 +5,15 @@
  */
 package br.com.erro404.pi3a.gerenciadorprodutos.classes;
 
+
 /**
  *
  * @author gabriel
  */
 public class Categoria {
-    int id;
-    String nome;
-    int idProduto;
+    private int id;
+    private String nome;
+    private long idProduto;
 
     public int getId() {
         return id;
@@ -30,13 +31,13 @@ public class Categoria {
         this.nome = nome;
     }
 
-    public int getIdProduto() {
+    public long getIdProduto() {
         return idProduto;
     }
 
-    public void setIdProduto(int idProduto) {
+    public void setIdProduto(long idProduto) {
         this.idProduto = idProduto;
     }
-    
+
     
 }

@@ -5,6 +5,7 @@
  */
 package br.com.erro404.pi3a.gerenciadorprodutos.classes;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -12,14 +13,15 @@ import java.util.Date;
  * @author gabriel
  */
 public class Produto {
-    int id;
-    String nome;
-    String descricao;
-    Double precoCompra;
-    Double precoVenda;
-    Integer quantidade;
-    Date dataCadastro;
-    Categoria categoria = new Categoria();
+    private int id;
+    private String nome;
+    private String descricao;
+    private Double precoCompra;
+    private Double precoVenda;
+    private Integer quantidade;
+    private Date dataCadastro;
+    private Categoria categoria = new Categoria();
+    private ArrayList<Categoria> categorias;
 
     public int getId() {
         return id;
@@ -84,6 +86,5 @@ public class Produto {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-    
-    
+
 }

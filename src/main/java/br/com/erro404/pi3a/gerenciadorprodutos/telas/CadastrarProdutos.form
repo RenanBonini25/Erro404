@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
-  <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="groupCategoria">
-    </Component>
-  </NonVisualComponents>
   <Properties>
     <Property name="closable" type="boolean" value="true"/>
     <Property name="iconifiable" type="boolean" value="true"/>
@@ -189,6 +185,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="textQuantidade">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textQuantidadeKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
@@ -220,81 +219,68 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                              <Component id="radioCat4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="radioCat5" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                              <Component id="checkCat4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="checkCat5" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="radioCat1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="radioCat2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="11" max="32767" attributes="0"/>
-                              <Component id="radioCat3" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                              <Component id="checkCat1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="checkCat2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="checkCat3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace pref="10" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="radioCat1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="radioCat2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="radioCat3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="checkCat1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="checkCat2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="checkCat3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace pref="3" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="radioCat4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="radioCat5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="checkCat4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="checkCat5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JRadioButton" name="radioCat2">
+            <Component class="javax.swing.JCheckBox" name="checkCat1">
               <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="groupCategoria"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value=" DOIS"/>
+                <Property name="text" type="java.lang.String" value="UM"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="radioCat1">
+            <Component class="javax.swing.JCheckBox" name="checkCat2">
               <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="groupCategoria"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value=" UM"/>
+                <Property name="text" type="java.lang.String" value="DOIS"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkCat2ActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="radioCat3">
+            <Component class="javax.swing.JCheckBox" name="checkCat3">
               <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="groupCategoria"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="TR&#xca;S"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="radioCat4">
+            <Component class="javax.swing.JCheckBox" name="checkCat4">
               <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="groupCategoria"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value=" QUATRO"/>
+                <Property name="text" type="java.lang.String" value="QUATRO"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="radioCat5">
+            <Component class="javax.swing.JCheckBox" name="checkCat5">
               <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="groupCategoria"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value=" CINCO"/>
+                <Property name="text" type="java.lang.String" value="CINCO"/>
               </Properties>
             </Component>
           </SubComponents>

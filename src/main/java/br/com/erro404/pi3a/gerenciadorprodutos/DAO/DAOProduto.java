@@ -1,5 +1,6 @@
 package br.com.erro404.pi3a.gerenciadorprodutos.DAO;
 
+import br.com.erro404.pi3a.gerenciadorprodutos.classes.Categoria;
 import br.com.erro404.pi3a.gerenciadorprodutos.classes.Produto;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,12 +20,10 @@ public class DAOProduto {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/produtobd", "root", "");
     }
 
-    public static void incluir(Produto produto) throws SQLException, ClassNotFoundException {
+    public static long incluir(Produto produto) throws SQLException, ClassNotFoundException {
         String query = "INSERT INTO produto (NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DT_CADASTRO)"
                 + "VALUES (?, ?, ?, ?, ?, ?) ";
-        String queryCat = "INSERT INTO produto_categoria (ID_PRODUTO, ID_CATEGORIA) VALUES (?, ?)";
         long idProduto = 0;
-        int idCategoria = produto.getCategoria().getId();
 
         try (Connection conn = obterConexao()) {
             conn.setAutoCommit(false);
@@ -44,11 +43,6 @@ public class DAOProduto {
                     }
                 }
 
-                try (PreparedStatement stmt2 = conn.prepareStatement(queryCat)) {
-                    stmt2.setLong(1, idProduto);
-                    stmt2.setInt(2, idCategoria);
-                    stmt2.executeUpdate();
-                }
 
                 conn.commit();
 
@@ -56,6 +50,25 @@ public class DAOProduto {
                 conn.rollback();
                 throw e;
             }
+        }
+        return idProduto;
+    }
+
+    public static void incluirProdutoCat(Categoria categoria) throws ClassNotFoundException, SQLException {
+        String queryCat = "INSERT INTO produto_categoria (ID_PRODUTO, ID_CATEGORIA) VALUES (?, ?)";
+
+        try (Connection conn = obterConexao()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement stmt2 = conn.prepareStatement(queryCat)) {
+                stmt2.setLong(1, categoria.getIdProduto());
+                stmt2.setInt(2, categoria.getId());
+                stmt2.executeUpdate();
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+
         }
     }
 
