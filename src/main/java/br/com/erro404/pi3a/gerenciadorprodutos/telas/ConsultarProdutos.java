@@ -28,12 +28,12 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        textPesquisar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        tabelaPesquisa = new javax.swing.JTable();
+        botaoPesquisar = new javax.swing.JButton();
+        botaoExcluir = new javax.swing.JButton();
+        botaoEditar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -41,7 +41,7 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Nome");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaPesquisa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -58,13 +58,13 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
                 "ID", "Nome", "Quantidade", "Preço Final"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabelaPesquisa);
 
-        jButton1.setText("Pesquisar");
+        botaoPesquisar.setText("Pesquisar");
 
-        jButton2.setText("Excluir");
+        botaoExcluir.setText("Excluir");
 
-        jButton3.setText("Editar");
+        botaoEditar.setText("Editar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,18 +74,18 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
                 .addGap(87, 87, 87)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(textPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(botaoPesquisar)
                 .addContainerGap(89, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)
+                        .addComponent(botaoEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(botaoExcluir)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -94,14 +94,14 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(textPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botaoPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(botaoExcluir)
+                    .addComponent(botaoEditar))
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
@@ -110,12 +110,12 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton botaoEditar;
+    private javax.swing.JButton botaoExcluir;
+    private javax.swing.JButton botaoPesquisar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tabelaPesquisa;
+    private javax.swing.JTextField textPesquisar;
     // End of variables declaration//GEN-END:variables
 }

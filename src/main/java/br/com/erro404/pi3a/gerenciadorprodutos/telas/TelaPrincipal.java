@@ -33,7 +33,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         Painel = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        Menu = new javax.swing.JMenu();
+        MenuProdutos = new javax.swing.JMenu();
         BotaoCadastrar = new javax.swing.JMenuItem();
         BotaoConsultar = new javax.swing.JMenuItem();
 
@@ -52,7 +52,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGap(0, 472, Short.MAX_VALUE)
         );
 
-        Menu.setText("Produtos");
+        MenuProdutos.setText("Produtos");
 
         BotaoCadastrar.setText("Cadastrar");
         BotaoCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -60,7 +60,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 BotaoCadastrarActionPerformed(evt);
             }
         });
-        Menu.add(BotaoCadastrar);
+        MenuProdutos.add(BotaoCadastrar);
 
         BotaoConsultar.setText("Consultar");
         BotaoConsultar.addActionListener(new java.awt.event.ActionListener() {
@@ -68,9 +68,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 BotaoConsultarActionPerformed(evt);
             }
         });
-        Menu.add(BotaoConsultar);
+        MenuProdutos.add(BotaoConsultar);
 
-        jMenuBar1.add(Menu);
+        jMenuBar1.add(MenuProdutos);
 
         setJMenuBar(jMenuBar1);
 
@@ -142,7 +142,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem BotaoCadastrar;
     private javax.swing.JMenuItem BotaoConsultar;
-    private javax.swing.JMenu Menu;
+    private javax.swing.JMenu MenuProdutos;
     private javax.swing.JDesktopPane Painel;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
