@@ -12,8 +12,8 @@ public class ServicoProduto {
 
     public static void cadastrarProduto(Produto produto, ArrayList<Categoria> categorias)
             throws ExceptionProduto, SQLException, ClassNotFoundException {
-        ValidadorProduto.validar(produto);
         try {
+            ValidadorProduto.validar(produto);
             long idProduto = DAOProduto.incluir(produto);
             for (int i = 0; i < categorias.size(); i++) {
                 categorias.get(i).setIdProduto(idProduto);

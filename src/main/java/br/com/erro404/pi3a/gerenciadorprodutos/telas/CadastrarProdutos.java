@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -87,6 +88,18 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
         jLabel7.setText("R$");
 
         jLabel8.setText("R$");
+
+        textPrecoVenda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textPrecoVendaKeyTyped(evt);
+            }
+        });
+
+        textPrecoCompra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textPrecoCompraKeyTyped(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Categoria"));
 
@@ -271,12 +284,14 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
         } catch (Exception e) {
 
         }
-        ArrayList<Categoria> categorias = selecionarCategoria(produto);
+        ArrayList<Categoria> categorias = selecionarCategorias(produto);
 
         Date data = new Date();
         produto.setDataCadastro(data);
         try {
             ServicoProduto.cadastrarProduto(produto, categorias);
+            JOptionPane.showMessageDialog(rootPane, "Produto inserido com sucesso!",
+                    "Cadastro efetuado!", JOptionPane.INFORMATION_MESSAGE);
         } catch (ExceptionProduto ex) {
             Logger.getLogger(CadastrarProdutos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -284,8 +299,7 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CadastrarProdutos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        JOptionPane.showMessageDialog(rootPane, "Produto inserido com sucesso!",
-                "Cadastro efetuado!", JOptionPane.INFORMATION_MESSAGE);
+
         limparCamposCadastro();
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
@@ -300,43 +314,49 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_checkCat2ActionPerformed
 
+    private void textPrecoCompraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textPrecoCompraKeyTyped
+        String caracteres = "0987654321,.";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_textPrecoCompraKeyTyped
+
+    private void textPrecoVendaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textPrecoVendaKeyTyped
+        String caracteres = "0987654321,.";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_textPrecoVendaKeyTyped
+
     public void limparCamposCadastro() {
         textDescricao.setText("");
         textPrecoVenda.setText("");
         textPrecoCompra.setText("");
         textNome.setText("");
         textDescricao.setText("");
-
+        textQuantidade.setText("");
+        checkCat1.setSelected(false);
+        checkCat2.setSelected(false);
+        checkCat3.setSelected(false);
+        checkCat4.setSelected(false);
+        checkCat5.setSelected(false);
     }
 
-    public ArrayList<Categoria> selecionarCategoria(Produto produto) {
-        ArrayList<Categoria> categorias = new ArrayList<Categoria>();
-        if (checkCat1.isSelected()) {
+    public void definirCategorias(JCheckBox checkCat, int i, ArrayList<Categoria> categorias) {
+        if (checkCat.isSelected()) {
             Categoria categoria = new Categoria();
-            categoria.setId(1);
+            categoria.setId(i);
             categorias.add(categoria);
         }
-        if (checkCat2.isSelected()) {
-            Categoria categoria = new Categoria();
-            categoria.setId(2);
-            categorias.add(categoria);
-        }
-        if (checkCat3.isSelected()) {
-            Categoria categoria = new Categoria();
-            categoria.setId(3);
-            categorias.add(categoria);
-        }
-        if (checkCat4.isSelected()) {
-            Categoria categoria = new Categoria();
-            categoria.setId(4);
-            categorias.add(categoria);
-        }
-        if (checkCat5.isSelected()) {
-            Categoria categoria = new Categoria();
-            categoria.setId(5);
-            categorias.add(categoria);
-        }
+    }
 
+    public ArrayList<Categoria> selecionarCategorias(Produto produto) {
+        ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+        definirCategorias(checkCat1, 1, categorias);
+        definirCategorias(checkCat2, 2, categorias);
+        definirCategorias(checkCat3, 3, categorias);
+        definirCategorias(checkCat4, 4, categorias);
+        definirCategorias(checkCat5, 5, categorias);
         return categorias;
     }
 

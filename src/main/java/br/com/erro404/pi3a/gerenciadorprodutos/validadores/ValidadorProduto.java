@@ -24,6 +24,7 @@ public class ValidadorProduto {
         if (produto.getQuantidade() == null || (produto.getQuantidade() < 0)) {
             throw new ExceptionProduto("Quantidade não informada!");
         }
+        
     }
 
 }
