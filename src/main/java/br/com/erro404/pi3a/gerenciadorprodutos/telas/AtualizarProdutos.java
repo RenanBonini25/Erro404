@@ -375,7 +375,6 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
         }
 
         try {
-            //solicita ao ServicoInstrumento a atualizacao dos dados do instrumento
             ServicoProduto.atualizarProduto(produto);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage(),
@@ -386,7 +385,7 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(rootPane, "Produto atualizado com sucesso!",
                 "Atualização efetuada!", JOptionPane.INFORMATION_MESSAGE);
 
-        try {
+        /*try {
             if (this.getDesktopPane().getTopLevelAncestor() instanceof TelaPrincipal) {
                 TelaPrincipal principal = (TelaPrincipal) this.
                         getDesktopPane().getTopLevelAncestor();
@@ -396,7 +395,7 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         this.dispose();
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
@@ -407,7 +406,7 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
             categorias.add(categoria);
         }
     }
-    
+
     public ArrayList<Categoria> selecionarCategorias(Produto produto) {
         ArrayList<Categoria> categorias = new ArrayList<Categoria>();
         definirCategorias(checkUm, 1, categorias);
@@ -417,7 +416,7 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
         definirCategorias(checkCinco, 5, categorias);
         return categorias;
     }
-    
+
     public void checkCategoria(int num) {
         switch (num) {
             case 1:

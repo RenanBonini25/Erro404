@@ -206,7 +206,6 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
                 editarProduto.setTitle("Produto: " + produto.getNome());
                 this.getParent().add(editarProduto);
                 this.openFrameInCenter(editarProduto);
-                System.out.println("oi");
                 editarProduto.toFront();
             }
         } catch (Exception e) {
@@ -215,6 +214,7 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
                     + "exibir os detalhes deste instrumento.",
                     "Erro ao abrir detalhe", JOptionPane.ERROR_MESSAGE);
         }
+        this.dispose();
     }//GEN-LAST:event_botaoEditarActionPerformed
 
 

@@ -24,11 +24,11 @@ public class DAOProduto {
         Class.forName("com.mysql.jdbc.Driver");
 
         //1B) Abrir conexão com o BD
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/produtobd", "root", "");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/PRODUTOBD", "root", "");
     }
 
     public static long incluir(Produto produto) throws SQLException, ClassNotFoundException {
-        String query = "INSERT INTO produto (NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DT_CADASTRO)"
+        String query = "INSERT INTO PRODUTO (NOME, DESCRICAO, PRECO_COMPRA, PRECO_VENDA, QUANTIDADE, DT_CADASTRO)"
                 + "VALUES (?, ?, ?, ?, ?, ?) ";
         long idProduto = 0;
 
@@ -61,7 +61,7 @@ public class DAOProduto {
     }
 
     public static void incluirProdutoCat(Categoria categoria) throws ClassNotFoundException, SQLException {
-        String queryCat = "INSERT INTO produto_categoria (ID_PRODUTO, ID_CATEGORIA) VALUES (?, ?)";
+        String queryCat = "INSERT INTO PRODUTO_CATEGORIA (ID_PRODUTO, ID_CATEGORIA) VALUES (?, ?)";
 
         try (Connection conn = obterConexao()) {
             conn.setAutoCommit(false);
@@ -79,7 +79,7 @@ public class DAOProduto {
     }
 
     public static ArrayList<Produto> listarProdutos() throws SQLException, ClassNotFoundException, ParseException {
-        String query = "SELECT * FROM Produto";
+        String query = "SELECT * FROM PRODUTO";
         ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
         SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
         try (Connection conn = obterConexao()) {
@@ -111,7 +111,7 @@ public class DAOProduto {
     }
 
     public static ArrayList<Produto> procurarProduto(String valor) throws SQLException, ClassNotFoundException, ParseException {
-        String query = "SELECT * FROM Produto WHERE Nome LIKE ?";
+        String query = "SELECT * FROM PRODUTO WHERE NOME LIKE ?";
         ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
         SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
         try (Connection conn = obterConexao()) {
@@ -144,7 +144,7 @@ public class DAOProduto {
     }
 
     public static Produto obterProduto(Integer id) throws ClassNotFoundException, ParseException {
-        String query = "SELECT * FROM Produto WHERE ID = ?";
+        String query = "SELECT * FROM PRODUTO WHERE ID = ?";
         String query2 = "SELECT distinct CATEGORIA.ID FROM CATEGORIA\n"
                 + "INNER JOIN PRODUTO_CATEGORIA ON CATEGORIA.ID = PRODUTO_CATEGORIA.ID_CATEGORIA\n"
                 + "INNER JOIN PRODUTO ON ? = PRODUTO_CATEGORIA.ID_PRODUTO;";
@@ -197,7 +197,7 @@ public class DAOProduto {
     }
 
     public static void atualizarProduto(Produto produto) throws ClassNotFoundException {
-        String query = "UPDATE Produto SET NOME = ?, DESCRICAO = ?, PRECO_COMPRA = ?, PRECO_VENDA = ?, "
+        String query = "UPDATE PRODUTO SET NOME = ?, DESCRICAO = ?, PRECO_COMPRA = ?, PRECO_VENDA = ?, "
                 + "QUANTIDADE = ? WHERE (ID = ?)";
         String query2 = "DELETE FROM PRODUTO_CATEGORIA WHERE ID_PRODUTO = ?";
         String queryCat = "INSERT INTO produto_categoria (ID_PRODUTO, ID_CATEGORIA) VALUES (?, ?)";
