@@ -237,4 +237,19 @@ public class DAOProduto {
         }
     }
 
+    public static void excluir(Integer id) throws SQLException, Exception {
+        String queryCategoria = "DELETE FROM PRODUTOBD.PRODUTO_CATEGORIA WHERE ID_PRODUTO=?";
+        String queryProduto = "DELETE FROM PRODUTOBD.PRODUTO WHERE ID=?";
+        try(Connection conn = obterConexao()){
+            try(PreparedStatement stmtCategoria = conn.prepareStatement(queryCategoria)){
+                stmtCategoria.setInt(1, id);
+                stmtCategoria.execute();
+            }
+            try(PreparedStatement stmtProduto = conn.prepareStatement(queryProduto)){
+                stmtProduto.setInt(1, id);
+                stmtProduto.execute();
+            }
+        }
+    }
+
 }

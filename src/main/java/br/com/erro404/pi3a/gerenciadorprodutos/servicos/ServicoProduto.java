@@ -79,5 +79,14 @@ public class ServicoProduto {
             throw new DataSourceException("Erro na fonte de dados", e);
         }
     }
+    
+    public static void excluirProduto(Integer id) throws ExceptionProduto, DataSourceException{
+        try {
+            DAOProduto.excluir(id);
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new DataSourceException("Erro na fonte de dados ", e);
+        }
+    }
 
 }

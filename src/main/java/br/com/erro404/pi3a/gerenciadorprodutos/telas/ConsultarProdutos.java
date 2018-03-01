@@ -6,11 +6,14 @@
 package br.com.erro404.pi3a.gerenciadorprodutos.telas;
 
 import br.com.erro404.pi3a.gerenciadorprodutos.classes.Produto;
+import br.com.erro404.pi3a.gerenciadorprodutos.exceptions.DataSourceException;
 import br.com.erro404.pi3a.gerenciadorprodutos.exceptions.ExceptionProduto;
 import br.com.erro404.pi3a.gerenciadorprodutos.servicos.ServicoProduto;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -109,6 +112,11 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
         });
 
         botaoExcluir.setText("Excluir");
+        botaoExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoExcluirActionPerformed(evt);
+            }
+        });
 
         botaoEditar.setText("Editar");
         botaoEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -217,6 +225,74 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_botaoEditarActionPerformed
 
+    private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
+        if (tabelaPesquisa.getSelectedRow() >= 0) {
+            final int row = tabelaPesquisa.getSelectedRow();
+            String nome = (String) tabelaPesquisa.getValueAt(row, 1);
+            int resposta = JOptionPane.showConfirmDialog(rootPane, "Ecluir o produto \"" + nome + "\"?","Confirmar exclusao",
+                    JOptionPane.YES_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                Integer id = (Integer) tabelaPesquisa.getValueAt(row, 0);
+                try {
+                    ServicoProduto.excluirProduto(id);
+                    JOptionPane.showMessageDialog(rootPane, "Produto excluido com sucesso");
+                    this.atualizaLista();
+                } catch (ExceptionProduto ex) {
+                    Logger.getLogger(ConsultarProdutos.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DataSourceException ex) {
+                    Logger.getLogger(ConsultarProdutos.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(ConsultarProdutos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_botaoExcluirActionPerformed
+/*private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        if (tabelaClientes.getSelectedRow() >= 0) {
+            final int row = tabelaClientes.getSelectedRow();
+            String nome = (String) tabelaClientes.getValueAt(row, 1);
+            int resposta = JOptionPane.showConfirmDialog(rootPane, "Excluir o cliente \"" + nome + "\"?",
+                    "Confirmar exclusão", JOptionPane.YES_NO_OPTION);
+            if (resposta == JOptionPane.YES_OPTION) {
+                try {
+                    Integer id = (Integer) tabelaClientes.getValueAt(row, 0);
+                    //solicita ao ServicoCliente a exclusao (desativar) do cliente
+                    ServicoCliente.excluirCliente(id);
+                    this.atualizaLista();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Erro ao excluir", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }*/
+    
+        public boolean atualizaLista() throws ExceptionProduto, Exception {
+        //solicita ao ServicoCliente o retorno do cliente
+        List<Produto> resultado = ServicoProduto.procurarProduto(ultimaPesquisa);
+        DefaultTableModel modelo = (DefaultTableModel) tabelaPesquisa.getModel();
+        modelo.setRowCount(0);
+        if (resultado == null || resultado.size() <= 0) {
+            return false;
+        }
+        //insere os dados do cliente na tabela
+        for (int i = 0; i < resultado.size(); i++) {
+            Produto produto = resultado.get(i);
+            if (produto != null) {
+                Object[] row = new Object[5];
+                row[0] = produto.getId();
+                row[1] = produto.getNome();
+                row[2] = produto.getQuantidade();
+                row[3] = produto.getPrecoVenda();
+                modelo.addRow(row);
+            }
+        }
+        return true;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoEditar;
