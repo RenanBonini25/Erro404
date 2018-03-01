@@ -5,15 +5,28 @@
  */
 package br.com.erro404.pi3a.gerenciadorprodutos.telas;
 
+import br.com.erro404.pi3a.gerenciadorprodutos.classes.Categoria;
+import br.com.erro404.pi3a.gerenciadorprodutos.classes.Produto;
+import br.com.erro404.pi3a.gerenciadorprodutos.servicos.ServicoProduto;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author gabriel
  */
 public class AtualizarProdutos extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form CadastrarProdutos
-     */
+    private Produto produto = new Produto();
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
     public AtualizarProdutos() {
         initComponents();
     }
@@ -53,6 +66,23 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setTitle("Atualizar Produtos");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados do Produto"));
 
@@ -66,9 +96,27 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Descriçao");
 
+        textQuantidade.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textQuantidadeKeyTyped(evt);
+            }
+        });
+
         jLabel7.setText("R$");
 
         jLabel8.setText("R$");
+
+        textPrecoVenda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textPrecoVendaKeyTyped(evt);
+            }
+        });
+
+        textPrecoCompra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textPrecoCompraKeyTyped(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Categoria"));
 
@@ -120,6 +168,18 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
                     .addComponent(checkQuatro)
                     .addComponent(checkCinco)))
         );
+
+        textNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textNomeKeyTyped(evt);
+            }
+        });
+
+        textDescricao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textDescricaoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -194,6 +254,11 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
         );
 
         botaoSalvar.setText("Salvar");
+        botaoSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoSalvarActionPerformed(evt);
+            }
+        });
 
         botaoCancelar.setText("Cancelar");
         botaoCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -238,6 +303,119 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_botaoCancelarActionPerformed
 
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        try {
+            textNome.setText(produto.getNome());
+            textDescricao.setText(produto.getDescricao());
+            textPrecoCompra.setText(String.valueOf(produto.getPrecoCompra()));
+            textPrecoVenda.setText(String.valueOf(produto.getPrecoVenda()));
+
+            textQuantidade.setText(String.valueOf(produto.getQuantidade()));
+            ArrayList<Integer> categorias = produto.getCategorias();
+            for (int i = 0; i < categorias.size(); i++) {
+                int num = categorias.get(i);
+                checkCategoria(num);
+            }
+        } catch (Exception ex) {
+
+        }
+
+    }//GEN-LAST:event_formInternalFrameOpened
+
+    private void textPrecoCompraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textPrecoCompraKeyTyped
+        String caracteres = "0987654321.,";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_textPrecoCompraKeyTyped
+
+    private void textPrecoVendaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textPrecoVendaKeyTyped
+        String caracteres = "0987654321.,";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_textPrecoVendaKeyTyped
+
+    private void textQuantidadeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textQuantidadeKeyTyped
+        String caracteres = "0987654321";
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
+            evt.consume();
+        }
+        if (textQuantidade.getText().length() > 2) {
+            textQuantidade.setText(textQuantidade.getText().substring(0, 3));
+        }
+    }//GEN-LAST:event_textQuantidadeKeyTyped
+
+    private void textNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textNomeKeyTyped
+        if (textNome.getText().length() > 99) {
+            textNome.setText(textNome.getText().substring(0, 99));
+        }
+    }//GEN-LAST:event_textNomeKeyTyped
+
+    private void textDescricaoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textDescricaoKeyTyped
+        if (textDescricao.getText().length() > 99) {
+            textDescricao.setText(textDescricao.getText().substring(0, 99));
+        }
+    }//GEN-LAST:event_textDescricaoKeyTyped
+
+    private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
+        try {
+            produto.setNome(textNome.getText());
+            produto.setDescricao(textDescricao.getText());
+            String precoCompra = textPrecoCompra.getText().replaceAll(",", ".");
+            String precoVenda = textPrecoVenda.getText().replaceAll(",", ".");
+            produto.setPrecoCompra(Double.parseDouble(precoCompra));
+            produto.setPrecoVenda(Double.parseDouble(precoVenda));
+            produto.setQuantidade(Integer.parseInt(textQuantidade.getText()));
+        } catch (Exception e) {
+
+        }
+
+        try {
+            //solicita ao ServicoInstrumento a atualizacao dos dados do instrumento
+            ServicoProduto.atualizarProduto(produto);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JOptionPane.showMessageDialog(rootPane, "Produto atualizado com sucesso!",
+                "Atualização efetuada!", JOptionPane.INFORMATION_MESSAGE);
+
+        try {
+            if (this.getDesktopPane().getTopLevelAncestor() instanceof TelaPrincipal) {
+                TelaPrincipal principal = (TelaPrincipal) this.
+                        getDesktopPane().getTopLevelAncestor();
+                if (principal != null) {
+                    principal.getConsultarProdutos().atualizarLista();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.dispose();
+    }//GEN-LAST:event_botaoSalvarActionPerformed
+
+    public void checkCategoria(int num) {
+        switch (num) {
+            case 1:
+                checkUm.setSelected(true);
+                break;
+            case 2:
+                checkDois.setSelected(true);
+                break;
+            case 3:
+                checkTres.setSelected(true);
+                break;
+            case 4:
+                checkQuatro.setSelected(true);
+                break;
+            case 5:
+                checkCinco.setSelected(true);
+                break;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancelar;
@@ -263,4 +441,5 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField textPrecoVenda;
     private javax.swing.JTextField textQuantidade;
     // End of variables declaration//GEN-END:variables
+
 }

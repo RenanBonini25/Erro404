@@ -9,6 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DAOProduto {
 
@@ -43,7 +49,6 @@ public class DAOProduto {
                     }
                 }
 
-
                 conn.commit();
 
             } catch (SQLException e) {
@@ -59,16 +64,152 @@ public class DAOProduto {
 
         try (Connection conn = obterConexao()) {
             conn.setAutoCommit(false);
-            try (PreparedStatement stmt2 = conn.prepareStatement(queryCat)) {
-                stmt2.setLong(1, categoria.getIdProduto());
-                stmt2.setInt(2, categoria.getId());
-                stmt2.executeUpdate();
+            try (PreparedStatement stmt = conn.prepareStatement(queryCat)) {
+                stmt.setLong(1, categoria.getIdProduto());
+                stmt.setInt(2, categoria.getId());
+                stmt.executeUpdate();
                 conn.commit();
             } catch (SQLException e) {
                 conn.rollback();
                 throw e;
             }
 
+        }
+    }
+
+    public static ArrayList<Produto> listarProdutos() throws SQLException, ClassNotFoundException, ParseException {
+        String query = "SELECT * FROM Produto";
+        ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        try (Connection conn = obterConexao()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                try (ResultSet resultados = stmt.executeQuery()) {
+                    while (resultados.next()) {
+                        Produto produto = new Produto();
+                        produto.setId(resultados.getInt("ID"));
+                        produto.setNome(resultados.getString("NOME"));
+                        produto.setDescricao(resultados.getString("DESCRICAO"));
+                        produto.setPrecoCompra(resultados.getDouble("PRECO_COMPRA"));
+                        produto.setPrecoVenda(resultados.getDouble("PRECO_VENDA"));
+                        produto.setQuantidade(resultados.getInt("QUANTIDADE"));
+                        Timestamp t = resultados.getTimestamp("DT_CADASTRO");
+                        String data = formatador.format(t);
+                        Date dataCadastro = formatador.parse(data);
+                        produto.setDataCadastro(dataCadastro);
+                        listaProdutos.add(produto);
+                    }
+                }
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        }
+        return listaProdutos;
+    }
+
+    public static ArrayList<Produto> procurarProduto(String valor) throws SQLException, ClassNotFoundException, ParseException {
+        String query = "SELECT * FROM Produto WHERE Nome LIKE ?";
+        ArrayList<Produto> listaProdutos = new ArrayList<Produto>();
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        try (Connection conn = obterConexao()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, "%" + valor + "%");
+                try (ResultSet resultados = stmt.executeQuery()) {
+                    while (resultados.next()) {
+                        Produto produto = new Produto();
+                        produto.setId(resultados.getInt("ID"));
+                        produto.setNome(resultados.getString("NOME"));
+                        produto.setDescricao(resultados.getString("DESCRICAO"));
+                        produto.setPrecoCompra(resultados.getDouble("PRECO_COMPRA"));
+                        produto.setPrecoVenda(resultados.getDouble("PRECO_VENDA"));
+                        produto.setQuantidade(resultados.getInt("QUANTIDADE"));
+                        Timestamp t = resultados.getTimestamp("DT_CADASTRO");
+                        String data = formatador.format(t);
+                        Date dataVenda = formatador.parse(data);
+                        produto.setDataCadastro(dataVenda);
+                        listaProdutos.add(produto);
+                    }
+                }
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        }
+        return listaProdutos;
+    }
+
+    public static Produto obterProduto(Integer id) throws ClassNotFoundException, ParseException {
+        String query = "SELECT * FROM Produto WHERE ID = ?";
+        String query2 = "SELECT distinct CATEGORIA.ID FROM CATEGORIA\n"
+                + "INNER JOIN PRODUTO_CATEGORIA ON CATEGORIA.ID = PRODUTO_CATEGORIA.ID_CATEGORIA\n"
+                + "INNER JOIN PRODUTO ON ? = PRODUTO_CATEGORIA.ID_PRODUTO;";
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        try (Connection conn = obterConexao()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setInt(1, id);
+                try (ResultSet resultados = stmt.executeQuery()) {
+                    while (resultados.next()) {
+                        Produto produto = new Produto();
+                        produto.setId(resultados.getInt("ID"));
+                        produto.setNome(resultados.getString("NOME"));
+                        produto.setDescricao(resultados.getString("DESCRICAO"));
+                        produto.setPrecoCompra(resultados.getDouble("PRECO_COMPRA"));
+                        produto.setPrecoVenda(resultados.getDouble("PRECO_VENDA"));
+                        produto.setQuantidade(resultados.getInt("QUANTIDADE"));
+                        Timestamp t = resultados.getTimestamp("DT_CADASTRO");
+                        String data = formatador.format(t);
+                        Date dataVenda = formatador.parse(data);
+                        produto.setDataCadastro(dataVenda);
+                        ArrayList<Integer> categorias = new ArrayList<Integer>();
+                        try (PreparedStatement stmt2 = conn.prepareStatement(query2)) {
+                            stmt2.setInt(1, id);
+                            try (ResultSet resultados2 = stmt2.executeQuery()) {
+                                while (resultados2.next()) {
+                                    categorias.add((resultados2.getInt("CATEGORIA.ID")));
+                                }
+                                produto.setCategorias(categorias);
+                            }
+                        }
+                        return produto;
+                    }
+                }
+
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public static void atualizarProduto(Produto produto) throws ClassNotFoundException {
+        String query = "UPDATE Produto SET NOME = ?, DESCRICAO = ?, PRECO_COMPRA = ?, PRECO_VENDA = ?, "
+                + "QUANTIDADE = ? WHERE (ID = ?)";
+        try (Connection conn = obterConexao()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setInt(6, produto.getId());
+                stmt.setString(1, produto.getNome());
+                stmt.setString(2, produto.getDescricao());
+                stmt.setDouble(3, produto.getPrecoCompra());
+                stmt.setDouble(4, produto.getPrecoVenda());
+                stmt.setInt(5, produto.getQuantidade());
+                stmt.executeUpdate();
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOProduto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

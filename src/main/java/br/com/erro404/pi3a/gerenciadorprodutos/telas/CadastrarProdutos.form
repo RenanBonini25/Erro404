@@ -292,8 +292,14 @@
           </SubComponents>
         </Container>
         <Component class="javax.swing.JTextField" name="textNome">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textNomeKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="textDescricao">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textDescricaoKeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

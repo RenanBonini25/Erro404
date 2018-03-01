@@ -5,17 +5,67 @@
  */
 package br.com.erro404.pi3a.gerenciadorprodutos.telas;
 
+import br.com.erro404.pi3a.gerenciadorprodutos.classes.Produto;
+import br.com.erro404.pi3a.gerenciadorprodutos.exceptions.ExceptionProduto;
+import br.com.erro404.pi3a.gerenciadorprodutos.servicos.ServicoProduto;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author gabriel
  */
 public class ConsultarProdutos extends javax.swing.JInternalFrame {
 
+    AtualizarProdutos editarProduto = new AtualizarProdutos();
+    String ultimaPesquisa = null;
+
     /**
      * Creates new form ConsultarProdutos
      */
     public ConsultarProdutos() {
         initComponents();
+        tabelaPesquisa.getColumnModel().getColumn(0).setMinWidth(0);
+        tabelaPesquisa.getColumnModel().getColumn(0).setMaxWidth(0);
+        tabelaPesquisa.getColumnModel().getColumn(0).setWidth(0);
+    }
+
+    public boolean atualizarLista() throws ExceptionProduto, Exception {
+        ArrayList<Produto> resultado = ServicoProduto.
+                procurarProduto(ultimaPesquisa);
+
+        DefaultTableModel model = (DefaultTableModel) tabelaPesquisa.getModel();
+        model.setRowCount(0);
+
+        if (resultado == null || resultado.size() <= 0) {
+            return false;
+        }
+
+        for (int i = 0; i < resultado.size(); i++) {
+            Produto produto = resultado.get(i);
+            if (produto != null) {
+                Object[] row = new Object[5];
+                row[0] = produto.getId();
+                row[1] = produto.getNome();
+                row[2] = produto.getQuantidade();
+                row[3] = produto.getPrecoVenda();
+                model.addRow(row);
+            }
+        }
+        return true;
+    }
+    
+    public void openFrameInCenter(JInternalFrame jif) {
+        Dimension desktopSize = this.getParent().getSize();
+        Dimension jInternalFrameSize = jif.getSize();
+        int width = (desktopSize.width - jInternalFrameSize.width) / 2;
+        int height = (desktopSize.height - jInternalFrameSize.height) / 2;
+        jif.setLocation(width, height);
+        jif.setVisible(true);
     }
 
     /**
@@ -43,16 +93,7 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
 
         tabelaPesquisa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID", "Nome", "Quantidade", "Preço Final"
@@ -61,10 +102,20 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tabelaPesquisa);
 
         botaoPesquisar.setText("Pesquisar");
+        botaoPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoPesquisarActionPerformed(evt);
+            }
+        });
 
         botaoExcluir.setText("Excluir");
 
         botaoEditar.setText("Editar");
+        botaoEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,6 +158,64 @@ public class ConsultarProdutos extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botaoPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisarActionPerformed
+        boolean resultSearch = false;
+
+        if (textPesquisar.getText() != null
+                && !textPesquisar.getText().equals("")) {
+            try {
+                ultimaPesquisa = textPesquisar.getText();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(rootPane, "Só é possível"
+                        + " pesquisar por um valor inteiro válido",
+                        "Campo de pesquisa inválido", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } else {
+            ultimaPesquisa = null;
+        }
+
+        try {
+            resultSearch = atualizarLista();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(),
+                    "Falha ao obter lista", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!resultSearch) {
+            JOptionPane.showMessageDialog(rootPane, "A pesquisa não retornou "
+                    + "resultados ", "Sem resultados",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botaoPesquisarActionPerformed
+
+    private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
+        try {
+            final int row = tabelaPesquisa.getSelectedRow();
+            if (row >= 0) {
+                Integer id = (Integer) tabelaPesquisa.getValueAt(row, 0);
+
+                //solicitao ao ServicoInstrumento o retorno do instrumento
+                Produto produto = ServicoProduto.obterProduto(id);
+
+                editarProduto.dispose();
+                editarProduto = new AtualizarProdutos();
+                editarProduto.setProduto(produto);
+                editarProduto.setTitle("Produto: " + produto.getNome());
+                this.getParent().add(editarProduto);
+                this.openFrameInCenter(editarProduto);
+                System.out.println("oi");
+                editarProduto.toFront();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(rootPane, "Não é possível "
+                    + "exibir os detalhes deste instrumento.",
+                    "Erro ao abrir detalhe", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botaoEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

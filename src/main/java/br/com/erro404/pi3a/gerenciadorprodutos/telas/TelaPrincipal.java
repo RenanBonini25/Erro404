@@ -12,9 +12,12 @@ import java.awt.Component;
  * @author gabriel
  */
 public class TelaPrincipal extends javax.swing.JFrame {
-    /**
-     * Creates new form TelaPrincipal
-     */
+    
+    private AtualizarProdutos atualizarProdutos = null;
+    private CadastrarProdutos cadastrarProdutos = null;
+    private ConsultarProdutos consultarProdutos = null;
+    
+    
     public TelaPrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -147,4 +150,28 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
+
+    public AtualizarProdutos getAtualizarProdutos() {
+        return atualizarProdutos;
+    }
+
+    public void setAtualizarProdutos(AtualizarProdutos atualizarProdutos) {
+        this.atualizarProdutos = atualizarProdutos;
+    }
+
+    public CadastrarProdutos getCadastrarProdutos() {
+        return cadastrarProdutos;
+    }
+
+    public void setCadastrarProdutos(CadastrarProdutos cadastrarProdutos) {
+        this.cadastrarProdutos = cadastrarProdutos;
+    }
+
+    public ConsultarProdutos getConsultarProdutos() {
+        return consultarProdutos;
+    }
+
+    public void setConsultarProdutos(ConsultarProdutos consultarProdutos) {
+        this.consultarProdutos = consultarProdutos;
+    }
 }

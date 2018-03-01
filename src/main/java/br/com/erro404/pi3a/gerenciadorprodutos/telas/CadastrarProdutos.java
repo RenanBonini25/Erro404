@@ -7,6 +7,7 @@ package br.com.erro404.pi3a.gerenciadorprodutos.telas;
 
 import br.com.erro404.pi3a.gerenciadorprodutos.classes.Categoria;
 import br.com.erro404.pi3a.gerenciadorprodutos.classes.Produto;
+import br.com.erro404.pi3a.gerenciadorprodutos.exceptions.DataSourceException;
 import br.com.erro404.pi3a.gerenciadorprodutos.exceptions.ExceptionProduto;
 import br.com.erro404.pi3a.gerenciadorprodutos.servicos.ServicoProduto;
 import java.sql.SQLException;
@@ -151,6 +152,18 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
                     .addComponent(checkCat4)
                     .addComponent(checkCat5)))
         );
+
+        textNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textNomeKeyTyped(evt);
+            }
+        });
+
+        textDescricao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textDescricaoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -298,6 +311,8 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
             Logger.getLogger(CadastrarProdutos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CadastrarProdutos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DataSourceException ex) {
+            Logger.getLogger(CadastrarProdutos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         limparCamposCadastro();
@@ -307,6 +322,9 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
         String caracteres = "0987654321";
         if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
+        }
+        if (textQuantidade.getText().length() > 2) {
+            textQuantidade.setText(textQuantidade.getText().substring(0, 3));
         }
     }//GEN-LAST:event_textQuantidadeKeyTyped
 
@@ -327,6 +345,18 @@ public class CadastrarProdutos extends javax.swing.JInternalFrame {
             evt.consume();
         }
     }//GEN-LAST:event_textPrecoVendaKeyTyped
+
+    private void textNomeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textNomeKeyTyped
+        if (textNome.getText().length() > 99) {
+            textNome.setText(textNome.getText().substring(0, 99));
+        }
+    }//GEN-LAST:event_textNomeKeyTyped
+
+    private void textDescricaoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textDescricaoKeyTyped
+        if (textDescricao.getText().length() > 99) {
+            textDescricao.setText(textDescricao.getText().substring(0, 99));
+        }
+    }//GEN-LAST:event_textDescricaoKeyTyped
 
     public void limparCamposCadastro() {
         textDescricao.setText("");
