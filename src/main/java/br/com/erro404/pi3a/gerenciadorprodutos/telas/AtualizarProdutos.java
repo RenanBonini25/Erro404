@@ -9,6 +9,7 @@ import br.com.erro404.pi3a.gerenciadorprodutos.classes.Categoria;
 import br.com.erro404.pi3a.gerenciadorprodutos.classes.Produto;
 import br.com.erro404.pi3a.gerenciadorprodutos.servicos.ServicoProduto;
 import java.util.ArrayList;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -311,9 +312,9 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
             textPrecoVenda.setText(String.valueOf(produto.getPrecoVenda()));
 
             textQuantidade.setText(String.valueOf(produto.getQuantidade()));
-            ArrayList<Integer> categorias = produto.getCategorias();
+            ArrayList<Categoria> categorias = produto.getCategorias();
             for (int i = 0; i < categorias.size(); i++) {
-                int num = categorias.get(i);
+                int num = categorias.get(i).getId();
                 checkCategoria(num);
             }
         } catch (Exception ex) {
@@ -367,6 +368,8 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
             produto.setPrecoCompra(Double.parseDouble(precoCompra));
             produto.setPrecoVenda(Double.parseDouble(precoVenda));
             produto.setQuantidade(Integer.parseInt(textQuantidade.getText()));
+            ArrayList<Categoria> categorias = selecionarCategorias(produto);
+            produto.setCategorias(categorias);
         } catch (Exception e) {
 
         }
@@ -397,6 +400,24 @@ public class AtualizarProdutos extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
+    public void definirCategorias(JCheckBox checkCat, int i, ArrayList<Categoria> categorias) {
+        if (checkCat.isSelected()) {
+            Categoria categoria = new Categoria();
+            categoria.setId(i);
+            categorias.add(categoria);
+        }
+    }
+    
+    public ArrayList<Categoria> selecionarCategorias(Produto produto) {
+        ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+        definirCategorias(checkUm, 1, categorias);
+        definirCategorias(checkDois, 2, categorias);
+        definirCategorias(checkTres, 3, categorias);
+        definirCategorias(checkQuatro, 4, categorias);
+        definirCategorias(checkCinco, 5, categorias);
+        return categorias;
+    }
+    
     public void checkCategoria(int num) {
         switch (num) {
             case 1:

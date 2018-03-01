@@ -20,7 +20,7 @@ public class Produto {
     private Double precoVenda;
     private Integer quantidade;
     private Date dataCadastro;
-    private ArrayList<Integer> categorias;
+    private ArrayList<Categoria> categorias;
 
     public int getId() {
         return id;
@@ -78,11 +78,11 @@ public class Produto {
         this.dataCadastro = dataCadastro;
     }
 
-    public ArrayList<Integer> getCategorias() {
+    public ArrayList<Categoria> getCategorias() {
         return categorias;
     }
 
-    public void setCategorias(ArrayList<Integer> categorias) {
+    public void setCategorias(ArrayList<Categoria> categorias) {
         this.categorias = categorias;
     }
     

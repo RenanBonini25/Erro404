@@ -9,6 +9,8 @@ import br.com.erro404.pi3a.gerenciadorprodutos.validadores.ValidadorProduto;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ServicoProduto {
 
@@ -25,6 +27,20 @@ public class ServicoProduto {
         } catch (Exception e) {
             e.printStackTrace();
             throw new DataSourceException("Erro na fonte de dados", e);
+        }
+    }
+
+    public static void atualizarCategoria(Produto produto) {
+        ArrayList<Categoria> categorias = produto.getCategorias();
+        for (int i = 0; i < categorias.size(); i++) {
+            categorias.get(i).setIdProduto(produto.getId());
+            try {
+                DAOProduto.incluirProdutoCat(categorias.get(i));
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ServicoProduto.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(ServicoProduto.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

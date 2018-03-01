@@ -2,6 +2,7 @@ package br.com.erro404.pi3a.gerenciadorprodutos.DAO;
 
 import br.com.erro404.pi3a.gerenciadorprodutos.classes.Categoria;
 import br.com.erro404.pi3a.gerenciadorprodutos.classes.Produto;
+import br.com.erro404.pi3a.gerenciadorprodutos.servicos.ServicoProduto;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -166,13 +167,18 @@ public class DAOProduto {
                         Date dataVenda = formatador.parse(data);
                         produto.setDataCadastro(dataVenda);
                         ArrayList<Integer> categorias = new ArrayList<Integer>();
+                        ArrayList<Categoria> listaCategorias = new ArrayList<Categoria>();
                         try (PreparedStatement stmt2 = conn.prepareStatement(query2)) {
                             stmt2.setInt(1, id);
                             try (ResultSet resultados2 = stmt2.executeQuery()) {
                                 while (resultados2.next()) {
-                                    categorias.add((resultados2.getInt("CATEGORIA.ID")));
+                                    Categoria categoria = new Categoria();
+                                    categoria.setId(resultados2.getInt("CATEGORIA.ID"));
+                                    categoria.setIdProduto(produto.getId());
+                                    listaCategorias.add(categoria);
+                                    //categorias.add((resultados2.getInt("CATEGORIA.ID")));
                                 }
-                                produto.setCategorias(categorias);
+                                produto.setCategorias(listaCategorias);
                             }
                         }
                         return produto;
@@ -193,6 +199,8 @@ public class DAOProduto {
     public static void atualizarProduto(Produto produto) throws ClassNotFoundException {
         String query = "UPDATE Produto SET NOME = ?, DESCRICAO = ?, PRECO_COMPRA = ?, PRECO_VENDA = ?, "
                 + "QUANTIDADE = ? WHERE (ID = ?)";
+        String query2 = "DELETE FROM PRODUTO_CATEGORIA WHERE ID_PRODUTO = ?";
+        String queryCat = "INSERT INTO produto_categoria (ID_PRODUTO, ID_CATEGORIA) VALUES (?, ?)";
         try (Connection conn = obterConexao()) {
             conn.setAutoCommit(false);
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -203,7 +211,23 @@ public class DAOProduto {
                 stmt.setDouble(4, produto.getPrecoVenda());
                 stmt.setInt(5, produto.getQuantidade());
                 stmt.executeUpdate();
+
+                try (PreparedStatement stmt2 = conn.prepareStatement(query2)) {
+                    stmt2.setInt(1, produto.getId());
+                    stmt2.executeUpdate();
+                }
+//                try (PreparedStatement stmt3 = conn.prepareStatement(queryCat)) {
+//                stmt3.setLong(1, categoria.getIdProduto());
+//                stmt3.setInt(2, categoria.getId());
+//                stmt3.executeUpdate();
+//                conn.commit();
+//            } catch (SQLException e) {
+//                conn.rollback();
+//                throw e;
+//            }
                 conn.commit();
+                ServicoProduto.atualizarCategoria(produto);
+
             } catch (SQLException e) {
                 conn.rollback();
                 throw e;
